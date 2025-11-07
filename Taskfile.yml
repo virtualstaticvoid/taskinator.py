@@ -83,8 +83,8 @@ tasks:
     prompt: Create a release for version {{.VERSION}} [{{.GIT_SHA}}]?
     cmds:
       - |
-        prev=$(git describe --abbrev=0 --tags v{{.VERSION}}^)
-        git log ${prev}..v{{.VERSION}} --pretty=oneline --first-parent > .notes
+        prev=$(git describe --abbrev=0 --tags HEAD)
+        git log ${prev}..HEAD --pretty=oneline --first-parent --no-decorate > .notes
       - git tag --sign --file=.notes v{{.VERSION}}
       - git push origin main --tags
       - gh release create --target v{{.VERSION}} --notes-from-tag --draft --latest
