@@ -46,6 +46,14 @@ tasks:
     cmds:
       - uv run pytest --durations 10
 
+  smoke-tests:
+    desc: Run smoke tests
+    preconditions:
+      - sh: docker run --rm --network host docker.io/redis:8 redis-cli PING
+        msg: "ERROR: Redis service must be running."
+    cmds:
+      - uv run python tests/smoke_test_rq.py
+
   build-docs:
     desc: Build HTML documentation
     dir: docs
