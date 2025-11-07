@@ -87,7 +87,7 @@ tasks:
         git log ${prev}..HEAD --pretty=oneline --first-parent --no-decorate > .notes
       - git tag --sign --file=.notes v{{.VERSION}}
       - git push origin main --tags
-      - gh release create --target v{{.VERSION}} --notes-from-tag --draft --latest
+      - gh release create --notes-from-tag --draft --latest v{{.VERSION}}
 
   redis-service:
     desc: Run Redis Service
