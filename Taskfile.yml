@@ -56,9 +56,19 @@ tasks:
   # https://docs.astral.sh/uv/guides/package/#updating-your-version
   bump-version:
     desc: Bump Python package minor version
-    prompt: Bump Python package version?
+    preconditions:
+      - sh: git diff-index --quiet HEAD --
+        msg: "ERROR: Uncommitted files found."
+    vars:
+      CURRENT:
+        sh: uv version --short
+      NEXT:
+        sh: uv version --bump minor --dry-run --short
+    prompt: Bump Python package version from {{.CURRENT}} to {{.NEXT}}?
     cmds:
       - uv version --bump minor
+      - git add pyproject.toml uv.lock
+      - git commit -m "bump version"
 
   release:
     desc: Create a release
