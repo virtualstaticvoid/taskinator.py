@@ -1,0 +1,75 @@
+# https://taskfile.dev
+---
+version: '3'
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+
+  init:
+    desc: Initialize project
+    cmds:
+      - uv sync --locked --all-extras --dev
+
+  init-asdf:
+    desc: Initialize project ASDF tools
+    cmds:
+      - cat .tool-plugins | xargs --verbose --max-lines=1 asdf plugin add
+      - asdf install
+
+  upgrade:
+    desc: Upgrade project dependencies
+    cmds:
+      - uv lock --upgrade
+      - uv sync
+
+  format:
+    desc: Format Python code
+    cmds:
+      - uv run ruff format
+
+  lint:
+    desc: Lint Python code
+    cmds:
+      - uv run mypy tasktronaut
+      - uv run pylint tasktronaut
+
+  build:
+    desc: Build Python package
+    cmds:
+      - uv build
+
+  test:
+    desc: Test Python package
+    cmds:
+      - uv run pytest --durations 10
+
+  # https://docs.astral.sh/uv/guides/package/#updating-your-version
+  bump-version:
+    desc: Bump Python package minor version
+    prompt: Bump Python package version?
+    cmds:
+      - uv version --bump minor
+
+  release:
+    desc: Create a release
+    preconditions:
+      - sh: git diff-index --quiet HEAD --
+        msg: "ERROR: Uncommitted files found."
+    vars:
+      GIT_SHA:
+        sh: git rev-parse --short HEAD
+      VERSION:
+        sh: uv version --short
+    prompt: Create a release for version {{.VERSION}} [{{.GIT_SHA}}]?
+    cmds:
+      - git tag --sign --message "release" v{{.VERSION}}
+      - git push origin main --tags
+      - gh release create v{{.VERSION}} --title "Version {{.VERSION}}"
+
+  redis-service:
+    desc: Run Redis Service
+    cmds:
+      - docker run --rm -p 127.0.0.1:6379:6379 docker.io/redis:8

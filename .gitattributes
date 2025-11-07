@@ -1,0 +1,57 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text eol=lf
+
+# Force the following filetypes to have unix eols, so Windows does not break them
+*.* text eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.7z binary
+*.bak binary
+*.bz2 binary
+*.cache binary
+*.deb binary
+*.dll binary
+*.doc* binary
+*.dump binary
+*.eot binary
+*.exe binary
+*.ez binary
+*.fla binary
+*.flv binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.jar binary
+*.jpeg binary
+*.jpg binary
+*.m4a binary
+*.mov binary
+*.mp3 binary
+*.mp4 binary
+*.odb binary
+*.odg binary
+*.odm binary
+*.odp binary
+*.ods binary
+*.odt binary
+*.otf binary
+*.otg binary
+*.otp binary
+*.ots binary
+*.ott binary
+*.pdb binary
+*.pdf binary
+*.png binary
+*.po binary
+*.ppt* binary
+*.pyc binary
+*.rpm binary
+*.so binary
+*.swf binary
+*.swp binary
+*.ttf binary
+*.wav binary
+*.webp binary
+*.woff* binary
+*.xls* binary
+*.zip binary
