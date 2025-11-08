@@ -3,10 +3,11 @@ from abc import ABC
 from typing import Optional, Type
 from unittest import mock
 
-from tasktronaut import Backend
+from tasktronaut import Backend, Context
 from tasktronaut.backend import Job
 from tasktronaut.process import ConcurrentProcess, Process, SequentialProcess
 from tasktronaut.steps import Step
+
 from . import mocks
 
 
@@ -57,6 +58,7 @@ class ProcessDefinitionTestCase(unittest.TestCase):
             identifier="foo",
             step="bar",
             description="baz",
+            context=Context(),
         ):
             called = True
 

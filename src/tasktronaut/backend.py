@@ -71,6 +71,7 @@ class Backend(ABC):
                 identifier=identifier,
                 step=function_name,
                 description=description,
+                context=context,
             ):
                 task_func(context=context, **kwargs)
 

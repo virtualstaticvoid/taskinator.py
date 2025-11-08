@@ -1,9 +1,10 @@
 from contextlib import contextmanager
 from typing import Any, Dict, Generator, List, Optional, Union
 
-from tasktronaut import Builder, ProcessDefinition, task
+from tasktronaut import Builder, Context, ProcessDefinition, task
 from tasktronaut.backend import Backend, Job
 from tasktronaut.errors import CancelProcessError, NonRetryableProcessError
+
 from tasktronaut.types import Description
 
 
@@ -81,11 +82,13 @@ class MockDefinition(ProcessDefinition):
         identifier: str,
         step: str,
         description: Description,
+        context: Context,
     ) -> Generator[None, None, None]:
         with super().around_task(
             identifier=identifier,
             step=step,
             description=description,
+            context=context,
         ):
             yield
 

@@ -7,6 +7,7 @@ from typing import Generator, Optional, Type
 
 from .backend import Backend, Job
 from .builder import Builder
+from .context import Context
 from .steps import Steps
 from .types import Description, Options
 from .utils import to_dict
@@ -154,6 +155,7 @@ class ProcessDefinition(ABC):
         identifier: str,
         step: str,
         description: Description,
+        context: Context,  # pylint: disable=unused-argument
     ) -> Generator[None, None, None]:
         logger.info(
             "Executing '%s' (%s) of %s process [%s].",
