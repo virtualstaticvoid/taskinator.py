@@ -34,7 +34,7 @@ tasks:
     desc: Lint Python code
     cmds:
       - uv run mypy src
-      - uv run pylint src
+      - uv run pylint src tests
 
   build:
     desc: Build Python package
