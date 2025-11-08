@@ -106,7 +106,7 @@ class Builder:
         description: Description = None,
     ):
         builder = Builder(
-            process=definition.create_process(
+            process=definition.execution_mode.value(
                 identifier=self.process.identifier,
                 definition=definition,
             ),

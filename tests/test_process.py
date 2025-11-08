@@ -37,13 +37,6 @@ class ProcessTestCase(unittest.TestCase):
 
 
 class ProcessDefinitionTestCase(unittest.TestCase):
-    def test_create_process(self):
-        result = mocks.MockDefinition.create_process(
-            identifier="foo",
-            definition=mocks.MockDefinition,
-        )
-        self.assertIsNotNone(result)
-
     @mock.patch.object(mocks.MockDefinition, "define_process")
     def test_build(self, mock_define_process):
         result = mocks.MockDefinition.build(

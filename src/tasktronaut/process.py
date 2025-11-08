@@ -3,7 +3,7 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
-from typing import Generator, Optional, Type, cast
+from typing import Generator, Optional, Type
 
 from .backend import Backend, Job
 from .builder import Builder
@@ -124,20 +124,6 @@ class ProcessDefinition(ABC):
     execution_mode: ExecutionMode = ExecutionMode.SEQUENTIAL
 
     @classmethod
-    def create_process(
-        cls,
-        identifier: str,
-        definition: Type["ProcessDefinition"],
-    ) -> Process:
-        return cast(
-            Process,
-            cls.execution_mode.value(
-                identifier=identifier,
-                definition=definition,
-            ),
-        )
-
-    @classmethod
     def build(
         cls,
         identifier: Optional[str] = None,
@@ -145,7 +131,7 @@ class ProcessDefinition(ABC):
         **kwargs,
     ) -> Process:
         builder = Builder(
-            process=cls.create_process(
+            process=cls.execution_mode.value(
                 identifier=identifier or uuid.uuid4().hex,
                 definition=cls,
             ),
