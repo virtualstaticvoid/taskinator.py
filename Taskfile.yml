@@ -34,7 +34,7 @@ tasks:
     desc: Lint Python code
     cmds:
       - uv run mypy src
-      - uv run pylint src
+      - uv run pylint src tests
 
   build:
     desc: Build Python package
@@ -75,6 +75,7 @@ tasks:
     prompt: Bump Python package version from {{.CURRENT}} to {{.NEXT}}?
     cmds:
       - uv version --bump minor
+      - uv sync
       - git add pyproject.toml uv.lock
       - git commit -m "bump version"
 
@@ -101,3 +102,8 @@ tasks:
     desc: Run Redis Service
     cmds:
       - docker run --rm -p 127.0.0.1:6379:6379 docker.io/redis:8
+
+  rq-info:
+    desc: Show RQ information
+    cmds:
+      - uv run rq info --interval 5

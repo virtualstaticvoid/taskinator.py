@@ -1,9 +1,10 @@
 from contextlib import contextmanager
 from typing import Any, Dict, Generator, List, Optional, Union
 
-from tasktronaut import Builder, ProcessDefinition, task
+from tasktronaut import Builder, Context, ProcessDefinition, task
 from tasktronaut.backend import Backend, Job
 from tasktronaut.errors import CancelProcessError, NonRetryableProcessError
+
 from tasktronaut.types import Description
 
 
@@ -53,6 +54,18 @@ class MockBasicDefinition(ProcessDefinition):
 
 
 class MockDefinition(ProcessDefinition):
+    def mock_hook(self, *_, **__):
+        pass
+
+    def task_with_no_args(self):
+        self.mock_hook()
+
+    def task_with_args(self, *args, **kwargs):
+        self.mock_hook(*args, **kwargs)
+
+    def task_with_context(self, *args, context: Context, **kwargs):
+        self.mock_hook(*args, context=context, **kwargs)
+
     @task
     def task_success(self, *_, **__):
         pass
@@ -81,11 +94,13 @@ class MockDefinition(ProcessDefinition):
         identifier: str,
         step: str,
         description: Description,
+        context: Context,
     ) -> Generator[None, None, None]:
         with super().around_task(
             identifier=identifier,
             step=step,
             description=description,
+            context=context,
         ):
             yield
 

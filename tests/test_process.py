@@ -3,10 +3,11 @@ from abc import ABC
 from typing import Optional, Type
 from unittest import mock
 
-from tasktronaut import Backend
+from tasktronaut import Backend, Context
 from tasktronaut.backend import Job
 from tasktronaut.process import ConcurrentProcess, Process, SequentialProcess
 from tasktronaut.steps import Step
+
 from . import mocks
 
 
@@ -37,13 +38,6 @@ class ProcessTestCase(unittest.TestCase):
 
 
 class ProcessDefinitionTestCase(unittest.TestCase):
-    def test_create_process(self):
-        result = mocks.MockDefinition.create_process(
-            identifier="foo",
-            definition=mocks.MockDefinition,
-        )
-        self.assertIsNotNone(result)
-
     @mock.patch.object(mocks.MockDefinition, "define_process")
     def test_build(self, mock_define_process):
         result = mocks.MockDefinition.build(
@@ -64,6 +58,7 @@ class ProcessDefinitionTestCase(unittest.TestCase):
             identifier="foo",
             step="bar",
             description="baz",
+            context=Context(),
         ):
             called = True
 
