@@ -19,7 +19,7 @@ class BackendTestCase(unittest.TestCase):
             module_name=self.module_name,
             definition_class=self.definition_class,
         )
-        self.assertTrue(mock_on_started.was_called())
+        self.assertTrue(mock_on_started.called)
 
     @mock.patch.object(MockDefinition, "around_task")
     def test_perform_task_around_task(self, mock_around_task):
@@ -32,7 +32,46 @@ class BackendTestCase(unittest.TestCase):
             description="foo",
             kwargs={},
         )
-        self.assertTrue(mock_around_task.was_called())
+        self.assertTrue(mock_around_task.called)
+
+    @mock.patch.object(MockDefinition, "mock_hook")
+    def test_perform_task_with_no_args(self, mock_hook):
+        self.backend.perform_task(
+            job=MockJob(),
+            identifier=self.identifier,
+            module_name=self.module_name,
+            definition_class=self.definition_class,
+            function_name=MockDefinition.task_with_no_args.__name__,
+            description="foo",
+            kwargs={},
+        )
+        self.assertTrue(mock_hook.called)
+
+    @mock.patch.object(MockDefinition, "mock_hook")
+    def test_perform_task_with_args(self, mock_hook):
+        self.backend.perform_task(
+            job=MockJob(),
+            identifier=self.identifier,
+            module_name=self.module_name,
+            definition_class=self.definition_class,
+            function_name=MockDefinition.task_with_args.__name__,
+            description="foo",
+            kwargs={},
+        )
+        self.assertTrue(mock_hook.called)
+
+    @mock.patch.object(MockDefinition, "mock_hook")
+    def test_perform_task_with_context(self, mock_hook):
+        self.backend.perform_task(
+            job=MockJob(),
+            identifier=self.identifier,
+            module_name=self.module_name,
+            definition_class=self.definition_class,
+            function_name=MockDefinition.task_with_context.__name__,
+            description="foo",
+            kwargs={},
+        )
+        self.assertTrue(mock_hook.called)
 
     @mock.patch.object(MockDefinition, "on_failed")
     def test_perform_task_on_failed(self, mock_on_failed):
@@ -47,7 +86,7 @@ class BackendTestCase(unittest.TestCase):
             description="foo",
             kwargs={},
         )
-        self.assertTrue(mock_on_failed.was_called())
+        self.assertTrue(mock_on_failed.called)
 
     @mock.patch.object(MockDefinition, "on_failed")
     def test_perform_task_on_failed_no_retry(self, mock_on_failed):
@@ -62,7 +101,7 @@ class BackendTestCase(unittest.TestCase):
             description="foo",
             kwargs={},
         )
-        self.assertTrue(mock_on_failed.was_called())
+        self.assertTrue(mock_on_failed.called)
 
     @mock.patch.object(MockDefinition, "on_cancelled")
     @mock.patch.object(MockJob, "cancel")
@@ -82,9 +121,9 @@ class BackendTestCase(unittest.TestCase):
             description="foo",
             kwargs={},
         )
-        self.assertTrue(mock_job_delete_dependents.was_called())
-        self.assertTrue(mock_job_cancel.was_called())
-        self.assertTrue(mock_on_cancelled.was_called())
+        self.assertTrue(mock_job_delete_dependents.called)
+        self.assertTrue(mock_job_cancel.called)
+        self.assertTrue(mock_on_cancelled.called)
 
     @mock.patch.object(MockDefinition, "on_completed")
     def test_perform_complete(self, mock_on_completed):
@@ -93,4 +132,4 @@ class BackendTestCase(unittest.TestCase):
             module_name=self.module_name,
             definition_class=self.definition_class,
         )
-        self.assertTrue(mock_on_completed.was_called())
+        self.assertTrue(mock_on_completed.called)

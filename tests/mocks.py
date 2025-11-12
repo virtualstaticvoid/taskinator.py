@@ -54,6 +54,18 @@ class MockBasicDefinition(ProcessDefinition):
 
 
 class MockDefinition(ProcessDefinition):
+    def mock_hook(self, *_, **__):
+        pass
+
+    def task_with_no_args(self):
+        self.mock_hook()
+
+    def task_with_args(self, *args, **kwargs):
+        self.mock_hook(*args, **kwargs)
+
+    def task_with_context(self, *args, context: Context, **kwargs):
+        self.mock_hook(*args, context=context, **kwargs)
+
     @task
     def task_success(self, *_, **__):
         pass

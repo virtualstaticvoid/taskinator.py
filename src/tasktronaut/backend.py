@@ -2,6 +2,7 @@
 Backend module.
 """
 
+import inspect
 import logging
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Protocol, Union
@@ -190,6 +191,10 @@ class Backend(ABC):
 
         definition = load_definition(module_name, definition_class)
         task_func = getattr(definition, function_name)
+
+        signature = inspect.signature(task_func)
+        has_context = "context" in signature.parameters
+
         context = Context()
         try:
             with definition.around_task(
@@ -198,7 +203,10 @@ class Backend(ABC):
                 description=description,
                 context=context,
             ):
-                task_func(context=context, **kwargs)
+                if has_context:
+                    task_func(context=context, **kwargs)
+                else:
+                    task_func(**kwargs)
 
         except NonRetryableProcessError as e:
             logger.error(
