@@ -75,6 +75,7 @@ tasks:
     prompt: Bump Python package version from {{.CURRENT}} to {{.NEXT}}?
     cmds:
       - uv version --bump minor
+      - uv sync
       - git add pyproject.toml uv.lock
       - git commit -m "bump version"
 
