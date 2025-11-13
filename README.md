@@ -9,6 +9,13 @@ A lightweight task orchestration library for building and running complex workfl
 Define workflows using a simple expressive DSL, with minimal boilerplate. Once defined, processes
 can be queued and executed with support for both sequential and concurrent DAG based execution.
 
+Checkout the [documentation][documentation] for more information.
+
 ## License
 
 MIT Copyright (c) 2025 Chris Stefano
+
+
+<!-- links -->
+
+[documentation]: https://www.virtualstaticvoid.com/tasktronaut/

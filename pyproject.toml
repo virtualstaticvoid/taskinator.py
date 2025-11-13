@@ -57,6 +57,7 @@ docs = [
 
 [project.urls]
 homepage = "https://github.com/virtualstaticvoid/tasktronaut"
+documentation = "https://www.virtualstaticvoid.com/tasktronaut/"
 repository = "https://github.com/virtualstaticvoid/tasktronaut.git"
 changelog = "https://github.com/virtualstaticvoid/tasktronaut/blob/main/CHANGELOG.md"
 
